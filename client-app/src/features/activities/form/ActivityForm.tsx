@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 export default observer(function ActivityForm() {
     const history = useHistory();
     const {activityStore} = useStore();
-    const {createActivity, updateActivity, loading, loadActivity, loadingInitial} = activityStore;
+    const {createActivity, updateActivity, loading, loadActivity} = activityStore;
     const {id} = useParams<{id: string}>();
     const [activity, setActivity] = useState({
         id: '',
@@ -21,9 +21,17 @@ export default observer(function ActivityForm() {
         city: '',
         venue: ''
     });
+    const [loadingActivity, setLoadingActivity] = useState(false);
 
     useEffect(() => {
-        if (id) loadActivity(id).then(activity => setActivity(activity!))
+        if (id)
+        {
+            setLoadingActivity(true);
+            loadActivity(id).then(activity => {
+                setActivity(activity!);
+                setLoadingActivity(false);
+            })
+        }
     }, [id, loadActivity])
 
     function handleSubmit() {
@@ -43,7 +51,7 @@ export default observer(function ActivityForm() {
         setActivity({...activity, [name]: value})
     }
 
-    if (loadingInitial) return <LoadingComponent content='Loading activity...' />
+    if (loadingActivity) return <LoadingComponent content='Loading activity...' />
 
     return (
         <Segment clearing>
