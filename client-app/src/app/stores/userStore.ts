@@ -31,6 +31,7 @@ export default class UserStore {
         store.commonStore.setToken(null);
         window.localStorage.removeItem('jwt');
         this.user = null;
+        store.activityStore.activityRegistry.clear()
         history.push('/');
     }
 
@@ -57,5 +58,9 @@ export default class UserStore {
 
     setImage = (image: string) => {
         if (this.user) this.user.image = image;
+    }
+
+    setDisplayName = (displayName: string) => {
+        if (this.user) this.user.displayName = displayName;
     }
 }
