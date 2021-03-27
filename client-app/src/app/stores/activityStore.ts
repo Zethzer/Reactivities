@@ -175,4 +175,14 @@ export default class ActivityStore {
             })
         }
     }
+
+    setImage = (username: string, image: string) => {
+        this.activityRegistry.forEach((activity: Activity, key: string) => {
+            if(activity.hostUsername === username && activity.host?.image) activity.host.image = image;
+            
+            activity.attendees.forEach((attendee: Profile) => {
+                if (attendee.username === username && attendee.image) attendee.image = image;
+            });
+        });
+    }
 }
