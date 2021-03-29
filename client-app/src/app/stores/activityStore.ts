@@ -181,12 +181,23 @@ export default class ActivityStore {
     }
 
     setImage = (username: string, image: string) => {
-        this.activityRegistry.forEach((activity: Activity, key: string) => {
+        this.activityRegistry.forEach(activity => {
             if(activity.hostUsername === username && activity.host?.image) activity.host.image = image;
 
-            activity.attendees.forEach((attendee: Profile) => {
+            activity.attendees.forEach(attendee => {
                 if (attendee.username === username && attendee.image) attendee.image = image;
             });
         });
+    }
+
+    updateAttendeeFollowing = (username: string) => {
+        this.activityRegistry.forEach(activity => {
+            activity.attendees.forEach(attendee => {
+                if (attendee.username === username) {
+                    attendee.following ? attendee.followersCount-- : attendee.followersCount++;
+                    attendee.following = !attendee.following;
+                }
+            })
+        })
     }
 }
