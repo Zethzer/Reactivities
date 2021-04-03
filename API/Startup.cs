@@ -55,14 +55,14 @@ namespace API
             app.UseReferrerPolicy(options => options.NoReferrer());
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
             app.UseXfo(options => options.Deny());
-            app.UseCspReportOnly(options => options
+            app.UseCsp(options => options
                 .BlockAllMixedContent()
                 .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com/"))
                 .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com/", "data:"))
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
                 .ImageSources(s => s.Self().CustomSources("https://res.cloudinary.com/"))
-                .ScriptSources(s => s.Self().CustomSources("sha256-MaOASONmzK1ZXxdI05yW7dB2tGOBfaXkEilKZU5cgWU="))
+                .ScriptSources(s => s.Self().CustomSources("sha256-MaOASONmzK1ZXxdI05yW7dB2tGOBfaXkEilKZU5cgWU=","sha256-FlmTAbVnnzjiprkXdkS9e+vyjb5BFl+4V8tOsgxVm60="))
             );
             
             if (env.IsDevelopment())
